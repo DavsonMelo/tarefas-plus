@@ -2,9 +2,11 @@
 
 import styles from '@/components/Header/styles.module.css';
 import { useSession, signIn, signOut } from 'next-auth/react';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 
 export function Header() {
+  const pathname = usePathname();
   const { data: session, status } = useSession();
 
   return (
@@ -15,6 +17,8 @@ export function Header() {
             <h1 className={styles.logo}>
               Tarefas<span>+</span>
             </h1>
+
+          {/* Se tiver sessão, ou, usuario logado, mostrar link para dashboard */}
           </Link>
           {session?.user && (
             <Link href="/dashboard" className={styles.link}>
@@ -22,6 +26,9 @@ export function Header() {
             </Link>
           )}
         </nav>
+
+        {/* Se o status for loading, mostra mensagem, se tiver usuario logado, mostrar no botão de logar
+        o nome do usuário */}
         {status === 'loading' ? (
           <p>Carregando...</p>
         ) : session ? (
@@ -34,7 +41,7 @@ export function Header() {
         ) : (
           <button
             className={styles.loginButton}
-            onClick={() => signIn('google', { callbackUrl: '/' })}
+            onClick={() => signIn('google', { callbackUrl: pathname })}
           >
             Entrar
           </button>

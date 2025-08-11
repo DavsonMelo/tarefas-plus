@@ -8,6 +8,7 @@ export const metadata = {
   description: 'Feito com o poder do App Router',
 }
 
+// Componente de layout raiz que envolve todas as páginas da aplicação.
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 
   return (
